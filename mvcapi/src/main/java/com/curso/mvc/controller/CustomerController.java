@@ -1,4 +1,5 @@
 package com.curso.mvc.controller;
+import com.curso.mvc.dto.CustomerDTO;
 import com.curso.mvc.entities.Customer;
 import com.curso.mvc.entities.Customer;
 import  com.curso.mvc.service.*;
@@ -41,8 +42,9 @@ public class CustomerController {
     }
 
     @PostMapping
-    public Customer createCustomer(@RequestBody Customer Customer) {
-        return customerService.saveCustomer(Customer);
+    public Customer createCustomer(@RequestBody Customer customer) {
+        //return customerService.saveCustomer(CustomerDTO.toCustomerEntity(customer));
+        return customerService.saveCustomer(customer);
     }
 
     @PutMapping("/{id}")

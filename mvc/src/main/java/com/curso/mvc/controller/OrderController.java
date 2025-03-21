@@ -10,8 +10,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-@Controller
-@RequestMapping("/orders")
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/orders")
 @Tag(name = "Pedidos", description = "Operaciones relacionadas con pedidos")
 public class OrderController {
     @Autowired
@@ -20,24 +22,14 @@ public class OrderController {
     @GetMapping
     @Operation(summary = "Listar pedidos", description = "Obtiene una lista de todos los pedidos.")
     @ApiResponse(responseCode = "200", description = "Lista de pedidos obtenida correctamente.")
-    public String listOrders(Model model) {
-        model.addAttribute("orders", orderService.getAllOrders());
-        return "orders/list";
-    }
-
-    @GetMapping("/new")
-    @Operation(summary = "Mostrar formulario de pedido", description = "Muestra el formulario para crear un nuevo pedido.")
-    @ApiResponse(responseCode = "200", description = "Formulario mostrado correctamente.")
-    public String showOrderForm(Model model) {
-        model.addAttribute("order", new Order());
-        return "orders/form";
+    public List<Order> listOrders(Model model) {
+        return orderService.getAllOrders();
     }
 
     @PostMapping
     @Operation(summary = "Crear pedido", description = "Crea un nuevo pedido.")
     @ApiResponse(responseCode = "302", description = "Pedido creado correctamente.")
-    public String createOrder(@ModelAttribute Order order) {
-        orderService.saveOrder(order);
-        return "redirect:/orders";
+    public Order createOrder(@RequestBody Order order) {
+        return orderService.saveOrder(order);
     }
 }
